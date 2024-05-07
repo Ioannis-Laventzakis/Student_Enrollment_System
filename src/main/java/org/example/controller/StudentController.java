@@ -28,12 +28,13 @@ public class StudentController {
             @RequestParam("enrollmentDate") String enrollmentDate,
             Model model
     ) {
-        try {
-            studentService.saveStudent(name, course, LocalDate.parse(enrollmentDate));
-            model.addAttribute("message", "Student successfully submitted!");
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("error", e.getMessage());
-            e.printStackTrace();
-        }
+  try {
+    studentService.createAndSaveStudent(name, course, LocalDate.parse(enrollmentDate));
+    model.addAttribute("message", "Student successfully submitted!");
+} catch (IllegalArgumentException e) {
+    model.addAttribute("error", e.getMessage());
+    e.printStackTrace();
+}
+        return "redirect:/";
     }
 }
