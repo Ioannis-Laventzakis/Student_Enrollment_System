@@ -5,17 +5,24 @@ import java.time.LocalDate;
 
 /**
  * Represents a student within the system.
- * This class is mapped to a database table 'Student' through JPA annotations.
+ * This class is mapped to a database table 'students' through JPA annotations.
  */
-@Entity  // Indicates that this class is an entity to be managed by JPA.
+@Entity // Indicates that this class is an entity to be managed by JPA.
+@Table(name = "students")  // Specifies the table name where the entity data will be stored.
 public class Student {
 
     @Id  // Marks this field as the primary key of the entity.
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Configures the way ID values are generated: using the database identity column.
+    @Column(name = "id")  // Maps this field to the 'id' column in the 'students' table.
     private Long id;  // Unique identifier for the student.
 
+    @Column(name = "name", nullable = false)  // Maps this field to the 'name' column in the 'students' table. The 'nullable = false' option indicates that this field cannot be null.
     private String name;  // Name of the student.
+
+    @Column(name = "course", nullable = false)  // Maps this field to the 'course' column in the 'students' table. The 'nullable = false' option indicates that this field cannot be null.
     private String course;  // Course that the student is enrolled in.
+
+    @Column(name = "enrollment_date", nullable = false)  // Maps this field to the 'enrollment_date' column in the 'students' table. The 'nullable = false' option indicates that this field cannot be null.
     private LocalDate enrollmentDate;  // Date when the student enrolled.
 
     /**

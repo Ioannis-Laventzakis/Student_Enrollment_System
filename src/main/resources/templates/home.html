@@ -7,7 +7,7 @@
 <body>
 <div class="container mt-4">
     <h1>Add New Student</h1>
-    <form th:action="@{/add}" th:object="${student}" method="post">
+    <form th:action="@{/enroll}" th:object="${student}" method="post">
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control" id="name" th:field="*{name}" required>

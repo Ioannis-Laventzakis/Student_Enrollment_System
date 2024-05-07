@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
  * Service layer class that handles business logic for student operations.
  * This class interacts with the StudentRepository to perform CRUD operations and other business functionalities.
  */
-@Service
+@Service // This annotation tells Spring that this class is a service.
 public class StudentService {
-    @Autowired
+    @Autowired// This annotation tells Spring to inject the repository dependency into this field.
     private StudentRepository studentRepository;  // Injecting the student repository to interact with the database.
 
     /**
@@ -43,21 +43,12 @@ public class StudentService {
      *
      * @return A list of students sorted by their course names.
      */
-    public List<Student> gettopStudents(){
+    public List<Student> getAllStudents(){
         List<Student> allStudents = studentRepository.findAll();
         // Using Java Streams to sort the students by course name.
         return allStudents.stream()
                 .sorted(Comparator.comparing(Student::getCourse))
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Retrieves all students from the database.
-     *
-     * @return A list of all registered students.
-     */
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
     }
 
     /**
