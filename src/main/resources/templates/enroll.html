@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enroll Student</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Enroll Student</h1>
+    <form th:action="@{/enroll}" th:object="${student}" method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" th:field="*{name}" class="form-control" id="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="course" class="form-label">Course</label>
+            <input type="text" th:field="*{courses}" class="form-control" id="course" required>
+        </div>
+        <div class="mb-3">
+            <label for="enrollmentDate" class="form-label">Enrollment Date</label>
+            <input type="date" th:field="*{enrollmentDate}" class="form-control" id="enrollmentDate" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
+</html>

@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class StudentController {
 
     @Autowired
-    private StudentService studentService;  // Injects the StudentService to handle business logic.
+    private StudentService service;  // Injects the StudentService to handle business logic.
 
     /**
      * Handles the default route and displays the home page with a list of all students.
@@ -28,7 +28,7 @@ public class StudentController {
      */
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("students", studentService.getAllStudents());  // Adds the list of all students to the model.
+        model.addAttribute("students", service.getAllStudents());  // Adds the list of all students to the model.
         model.addAttribute("student", new Student());  // Adds an empty student object to the model for the form.
         return "home";  // Returns the home view template.
     }
@@ -41,7 +41,7 @@ public class StudentController {
      * @param model A Model object to pass data or messages back to the view.
      * @return Redirects to the home page after successful submission or returns the form with errors.
      */
-    @PostMapping("/submit")
+    @PostMapping("/enroll")
     public String submitStudent(
             @RequestParam("name") String name,
             @RequestParam("course") String course,
@@ -50,7 +50,7 @@ public class StudentController {
     ) {
         try {
             // Attempts to create and save the new student using the service layer.
-            studentService.createAndSaveStudent(name, course, LocalDate.parse(enrollmentDate));
+            service.createAndSaveStudent(name, course, LocalDate.parse(enrollmentDate));
             model.addAttribute("message", "Student successfully submitted!");  // Adds a success message to the model.
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());  // Adds an error message to the model if there's an issue.
