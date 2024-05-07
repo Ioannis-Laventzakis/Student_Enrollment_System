@@ -10,8 +10,10 @@
     <div>
         <a th:href="@{/add}" class="btn btn-primary">Add Student</a>
     </div>
+    <!-- Placeholder for error/success message -->
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
     <div th:each="student : ${students}">
-        <p th:text="|Name: ${student.name}, Course: ${student.course}, Date: ${student.enrollmentDate}|"></p>
+        <p th:text="|Name: ${student.name}, Course: ${student.course}, Date: ${#dates.format(student.enrollmentDate, 'dd-MM-yyyy')}|"></p>
     </div>
 </div>
 </body>
