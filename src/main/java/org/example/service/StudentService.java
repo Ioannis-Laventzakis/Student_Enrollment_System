@@ -39,6 +39,7 @@ public class StudentService {
 
 
     // New service methods
+    // this method will return the list of students enrolled in a particular course
     public List<Student> getStudentsByCourse(String course){
         return repository.findByCourses(course);
     }

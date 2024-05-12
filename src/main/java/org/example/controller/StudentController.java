@@ -21,13 +21,14 @@ public class StudentController {
 
     @Autowired // inject the StudentService class
     private StudentService service;
-
+ // this method will be called when the user navigates to the home page
     @GetMapping("/")
     public String viewHomePage(Model model){
         model.addAttribute("students", service.getAllStudents());
         return "home";
     }
 
+    // this method will be called when the user navigates to the enroll page
     @GetMapping("/enroll")
     public String showEnrollmentForm(Model model){
         Student student = new Student();
@@ -35,6 +36,7 @@ public class StudentController {
         return "enroll";
     }
 
+    // this method will be called when the user submits the form
     @PostMapping("/enroll")
     public String submitStudentForm(@ModelAttribute("student") Student student, BindingResult result){
         if(result.hasErrors()){
@@ -48,6 +50,7 @@ public class StudentController {
 
 
     // New controller methods
+    // this method will be called when the user navigates to the students/course page
     @GetMapping("/students/course")
     public String getStudentsByCourse(@RequestParam("course") String course, Model model){
         List<Student> students = service.getStudentsByCourse(course);
@@ -55,17 +58,20 @@ public class StudentController {
         return "home";
     }
 
+    // this method will be called when the user navigates to the students/enrolledAfter page
     @GetMapping("/students/enrolledAfter")
     public String getStudentsEnrolledAfter(
             @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
             Model model
     ){
 
+        // get students enrolled after the given date
         List<Student> students = service.getStudentsEnrolledAfter(date);
         model.addAttribute("students", students);
         return "home";
     }
 
+    // this method will be called when the user navigates to the students/name page
     @GetMapping("/students/name")
     public String getStudentsByNameContaining(
             @RequestParam("name" ) String name,
