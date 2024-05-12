@@ -1,9 +1,8 @@
-package org.example.student_enrollment_system.controller;
+package org.example.controller;
 
-import java.util.Date;
-import java.util.List;
-import org.example.student_enrollment_system.model.Student;
-import org.example.student_enrollment_system.service.StudentService;
+
+import org.example.model.Student;
+import org.example.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -13,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Date;
+import java.util.List;
 
 @Controller // this class is a controller
 public class StudentController {

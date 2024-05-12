@@ -1,12 +1,12 @@
-package org.example.student_enrollment_system.repository;
-
-import java.util.Date;
-import java.util.List;
+package org.example.repository;
 
 import org.example.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.Date;
+import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
     // Standard CRUD methods are automatically provided
