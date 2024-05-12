@@ -1,61 +1,76 @@
-package org.example.controller;
+package org.example.student_enrollment_system.controller;
 
-import org.example.model.Student;
-import org.example.service.StudentService;
+import java.util.Date;
+import java.util.List;
+import org.example.student_enrollment_system.model.Student;
+import org.example.student_enrollment_system.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.ui.Model;
 
-import java.time.LocalDate;
-
-/**
- * Controller for handling student-related web requests.
- * Manages interactions between the user interface and the application data related to students.
- */
-@Controller
+@Controller // this class is a controller
 public class StudentController {
 
-    @Autowired
-    private StudentService service;  // Injects the StudentService to handle business logic.
+    @Autowired // inject the StudentService class
+    private StudentService service;
 
-    /**
-     * Handles the default route and displays the home page with a list of all students.
-     * @param model A Model object to pass data to the view.
-     * @return The name of the Thymeleaf template to render the home page.
-     */
     @GetMapping("/")
-    public String home(Model model) {
-        model.addAttribute("students", service.getAllStudents());  // Adds the list of all students to the model.
-        model.addAttribute("student", new Student());  // Adds an empty student object to the model for the form.
-        return "home";  // Returns the home view template.
+    public String viewHomePage(Model model){
+        model.addAttribute("students", service.getAllStudents());
+        return "home";
     }
 
-    /**
-     * Handles the submission of a new student form.
-     * @param name The student's name received from the form.
-     * @param course The course the student is enrolled in, received from the form.
-     * @param enrollmentDate The date the student enrolled, received from the form as a string.
-     * @param model A Model object to pass data or messages back to the view.
-     * @return Redirects to the home page after successful submission or returns the form with errors.
-     */
+    @GetMapping("/enroll")
+    public String showEnrollmentForm(Model model){
+        Student student = new Student();
+        model.addAttribute("student", student);
+        return "enroll";
+    }
+
     @PostMapping("/enroll")
-    public String submitStudent(
-            @RequestParam("name") String name,
-            @RequestParam("course") String course,
-            @RequestParam("enrollmentDate") String enrollmentDate,
-            Model model
-    ) {
-        try {
-            // Attempts to create and save the new student using the service layer.
-            service.createAndSaveStudent(name, course, LocalDate.parse(enrollmentDate));
-            model.addAttribute("message", "Student successfully submitted!");  // Adds a success message to the model.
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("error", e.getMessage());  // Adds an error message to the model if there's an issue.
-            e.printStackTrace();
+    public String submitStudentForm(@ModelAttribute("student") Student student, BindingResult result){
+        if(result.hasErrors()){
+            return "enroll"; // return to the form page if there is any error
         }
-        return "redirect:/";  // Redirects to the home page to display all students and the success or error message.
+
+        // save the student object
+        service.saveStudent(student);
+        return "redirect:/";
+    }
+
+
+    // New controller methods
+    @GetMapping("/students/course")
+    public String getStudentsByCourse(@RequestParam("course") String course, Model model){
+        List<Student> students = service.getStudentsByCourse(course);
+        model.addAttribute("students", students);
+        return "home";
+    }
+
+    @GetMapping("/students/enrolledAfter")
+    public String getStudentsEnrolledAfter(
+            @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+            Model model
+    ){
+
+        List<Student> students = service.getStudentsEnrolledAfter(date);
+        model.addAttribute("students", students);
+        return "home";
+    }
+
+    @GetMapping("/students/name")
+    public String getStudentsByNameContaining(
+            @RequestParam("name" ) String name,
+            Model model
+    ){
+        List<Student> students = service.getStudentsByNameContaining(name);
+        model.addAttribute("students", students);
+        return "home";
     }
 }

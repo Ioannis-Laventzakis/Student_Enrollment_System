@@ -1,64 +1,52 @@
-package org.example.service;
+package org.example.student_enrollment_system.service;
 
-import org.example.model.Student;
-import org.example.repository.StudentRepository;
+import java.util.Date;
+import java.util.List;
+import org.example.student_enrollment_system.model.Student;
+import org.example.student_enrollment_system.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 /**
- * Service layer class that handles business logic for student operations.
- * This class interacts with the StudentRepository to perform CRUD operations and other business functionalities.
- */
-@Service // This annotation tells Spring that this class is a service.
+ * explain the class
+ * */
+@Service
 public class StudentService {
-    @Autowired// This annotation tells Spring to inject the repository dependency into this field.
-    private StudentRepository studentRepository;  // Injecting the student repository to interact with the database.
+
+    @Autowired
+    private StudentRepository repository;
 
     /**
-     * Creates and saves a new student to the database.
-     * Validates input data before saving to ensure data integrity.
+     * Saves a {@link  Student} entity to the repository. If the student already exists
+     * (determined by uniques identifier, typically ID), this method will update
+     * the existing student. If the student does not exist, a new entry will be created
+     * in the repository.
      *
-     * @param name The name of the student.
-     * @param course The course the student is enrolled in.
-     * @param enrollmentDate The date the student enrolled.
-     * @return The saved Student object.
-     * @throws IllegalArgumentException if any input validation fails.
-     */
-    public Student createAndSaveStudent(String name, String course, LocalDate enrollmentDate) throws IllegalArgumentException {
-        if (name.isBlank()) throw new IllegalArgumentException("Student name cannot be blank.");
-        if (course.isBlank()) throw new IllegalArgumentException("Student course cannot be blank.");
-        if (enrollmentDate.isAfter(LocalDate.now())) throw new IllegalArgumentException("Enrollment date cannot be in the future.");
-
-        // Saving the new student to the database after passing validation checks
-        return studentRepository.save(new Student(name, course, enrollmentDate));
+     * @param student the {@link  Student} object to be saved; must not be null.
+     * @return the saved {@link  Student} object
+     *
+     * */
+    public Student saveStudent(Student student) {
+        return repository.save(student); // saving student object
     }
 
-    /**
-     * Retrieves all students from the database and sorts them by the course name.
-     *
-     * @return A list of students sorted by their course names.
-     */
     public List<Student> getAllStudents(){
-        List<Student> allStudents = studentRepository.findAll();
-        // Using Java Streams to sort the students by course name.
-        return allStudents.stream()
-                .sorted(Comparator.comparing(Student::getCourse))
-                .collect(Collectors.toList());
+        return repository.findAll();
     }
 
-    /**
-     * Counts the number of references in the course description.
-     *
-     * @param course The course description text that may contain references.
-     * @return The number of times 'ref:' appears in the course text.
-     */
-    private int countReferencesInCourse(String course) {
-        if (course.contains("ref:")) return course.split("ref:").length - 1;
-        else return 0;
+
+    // New service methods
+    public List<Student> getStudentsByCourse(String course){
+        return repository.findByCourses(course);
+    }
+
+    public  List<Student> getStudentsEnrolledAfter(Date date){
+        return  repository.findStudentsEnrolledAfter(date);
+    }
+
+    public List<Student> getStudentsByNameContaining(String name){
+        return repository.findByNameContaining(name);
     }
 }
