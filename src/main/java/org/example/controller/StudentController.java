@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Date;
 import java.util.List;
 
-@Controller // this class is a controller
+@Controller // this class is a controller //why is this class a controller? // this class is a controller because it is annotated with the @Controller annotation
 public class StudentController {
 
-    @Autowired // inject the StudentService class
+    @Autowired // inject the StudentService class into the controller class //why is the StudentService class injected into the controller class? // The StudentService class is injected
     private StudentService service;
  // this method will be called when the user navigates to the home page
     @GetMapping("/")
@@ -28,7 +28,7 @@ public class StudentController {
         return "home";
     }
 
-    // this method will be called when the user navigates to the enroll page
+    // this method will be called when the user navigates to the enroll page //why is this method called when the user navigates to the enroll page? // This method is called when the user navigates to the enroll page because it is annotated with the @GetMapping("/enroll") annotation
     @GetMapping("/enroll")
     public String showEnrollmentForm(Model model){
         Student student = new Student();
