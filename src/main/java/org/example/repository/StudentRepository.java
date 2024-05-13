@@ -9,43 +9,19 @@ import java.util.Date;
 import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    // Standard CRUD methods are automatically provided
+
+    // Other existing methods...??
 
 
-    // Custom Operations can be added
+    // New query methods for the repository interface to query the database
+    @Query("SELECT s FROM Student s WHERE s.name = :name AND s.course = :course")
+    List<Student> findByNameAndCourse(@Param("name") String name, @Param("course") String course);
 
-    // find the student by name
+    // Query method to find students by enrollment date between two dates
+    @Query("SELECT s FROM Student s WHERE s.enrollmentDate BETWEEN :start AND :end")
+    List<Student> findByEnrollmentDateBetween(@Param("start") Date start, @Param("end") Date end);
 
-    //1. Spring Data JPA will automatically generate the SELECT query for this method.
-
-    // List<Student> findByAttributeName(String name);
-
-
-//2. Using JPQL (Java Persistence Query Language)
-
-    //  @Query("SELECT st FROM Student st WHERE st.name = :name") // JPQL
-
-    //  List<Student> findByAttributeName(@Param("name") String name);
-
-//3. Native SQL
-    //  @Query(value = "SELECT * FROM students WHERE name = :name", nativeQuery = true)
-
-    //  List<Student> findByAttributeName(@Param("name") String name);
-
-// 4. Using Named Query
-
-// List<Student> findByAttributeName(@Param("name") String name);
-
-    // Find Students by Course
-
-    List<Student> findByCourses(String course);
-
-
-    // Find Students enrolled after a certain date : using JPQL
-    @Query("SELECT s FROM Student s WHERE s.enrollmentDate > :certainDate ")
-    List<Student> findStudentsEnrolledAfter(@Param("certainDate") Date date);
-
-    // Find students by name containing a string
-    List<Student> findByNameContaining( String name);
-
+    // Query method to find all students and order them by enrollment date in descending order
+    @Query("SELECT s FROM Student s ORDER BY s.enrollmentDate DESC")
+    List<Student> findAllOrderByEnrollmentDateDesc();
 }

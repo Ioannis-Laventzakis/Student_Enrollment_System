@@ -40,15 +40,15 @@ public class StudentService {
 
     // New service methods
     // this method will return the list of students enrolled in a particular course
-    public List<Student> getStudentsByCourse(String course){
-        return repository.findByCourses(course);
+    public List<Student> getStudentsByNameAndCourse(String name, String course){
+        return repository.findByNameAndCourse(name, course);
     }
 
-    public  List<Student> getStudentsEnrolledAfter(Date date){
-        return  repository.findStudentsEnrolledAfter(date);
+    public List<Student> getStudentsByEnrollmentDateBetween(Date start, Date end){
+        return repository.findByEnrollmentDateBetween(start, end);
     }
 
-    public List<Student> getStudentsByNameContaining(String name){
-        return repository.findByNameContaining(name);
+    public List<Student> getAllStudentsOrderByEnrollmentDateDesc(){
+        return repository.findAllOrderByEnrollmentDateDesc();
     }
 }
