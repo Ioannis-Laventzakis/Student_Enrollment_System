@@ -5,7 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-@Entity
+@Entity // Student is an entity class //why is Student an entity class? // Student is an entity class because it is annotated with the @Entity annotation
 @Table(name = "students")
 // 4. Using Named Query
 //@NamedQuery(name="Student.findByAttributeName",

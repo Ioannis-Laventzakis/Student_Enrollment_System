@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- This is the root element of the Maven POM file -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- The modelVersion field indicates the version of the POM model that this POM is based on -->
     <modelVersion>4.0.0</modelVersion>
+    <!-- The parent field is used to indicate this POM's parent POM -->
     <parent>
+        <!-- The groupId, artifactId, and version identify the parent POM -->
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <!-- The relativePath element is used to point to the parent POM's location. In this case, it's not needed because the parent POM is available in the Maven central repository -->
+        <relativePath/>
     </parent>
+    <!-- The groupId, artifactId, and version identify this POM -->
     <groupId>org.example</groupId>
     <artifactId>student-enrollment-system-using-spring-boot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <!-- The name and description elements are used to provide human-readable information about this POM -->
     <name>student-enrollment-system-using-spring-boot</name>
     <description>student-enrollment-system-using-spring-boot</description>
+    <!-- The properties element is used to define project-wide properties -->
     <properties>
+        <!-- This property sets the Java version to be used by Maven -->
         <java.version>17</java.version>
     </properties>
+    <!-- The dependencies element is used to list all dependencies for this project -->
     <dependencies>
+        <!-- Each dependency is identified by its groupId, artifactId, and version. The scope can also be specified -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -29,7 +40,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -41,14 +51,14 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
+    <!-- The build element is used to provide build-specific information. In this case, it specifies a plugin -->
     <build>
         <plugins>
+            <!-- The plugin element specifies a plugin to be used during the build process -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
-
 </project>
