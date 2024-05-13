@@ -3,54 +3,61 @@ package org.example.controller;
 import org.example.model.Student;
 import org.example.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 
-@Controller
+/**
+ * Controller for handling requests related to students.
+ */
+@RestController
+@RequestMapping("/students")
 public class StudentController {
 
     @Autowired
-    private StudentService service;
+    private StudentService studentService;
 
-    @GetMapping("/")
-    public String viewHomePage(Model model){
-        model.addAttribute("students", service.getAllStudents());
-        return "home";
+    /**
+     * Endpoint to get students by name and course.
+     * @param name The name of the student.
+     * @param course The course of the student.
+     * @return A list of students that match the name and course.
+     */
+    @GetMapping("/nameAndCourse")
+    public List<Student> getStudentsByNameAndCourse(@RequestParam String name, @RequestParam String course) {
+        return studentService.getStudentsByNameAndCourse(name, course);
     }
 
+    /**
+     * Endpoint to get students by enrollment date.
+     * @param start The start date.
+     * @param end The end date.
+     * @return A list of students that were enrolled between the start and end dates.
+     */
+    @GetMapping("/enrollmentDate")
+    public List<Student> getStudentsByEnrollmentDateBetween(@RequestParam Date start, @RequestParam Date end) {
+        return studentService.getStudentsByEnrollmentDateBetween(start, end);
+    }
+
+    /**
+     * Endpoint to show the form for enrolling a new student.
+     * @param model The model to which the new Student object is added.
+     * @return The name of the Thymeleaf template to be displayed.
+     */
     @GetMapping("/enroll")
-    public String showEnrollmentForm(Model model){
-        Student student = new Student();
-        model.addAttribute("student", student);
+    public String showEnrollForm(Model model) {
+        model.addAttribute("student", new Student());
         return "enroll";
     }
 
-    @PostMapping("/enroll")
-    public String submitStudentForm(@ModelAttribute("student") Student student, BindingResult result){
-        if(result.hasErrors()){
-            return "enroll";
-        }
-
-        service.saveStudent(student);
-        return "redirect:/";
-    }
-
-    public List<Student> getStudentsByNameAndCourse(String name, String course){
-        return service.getStudentsByNameAndCourse(name, course);
-    }
-
-    public List<Student> getStudentsByEnrollmentDateBetween(Date start, Date end){
-        return service.getStudentsByEnrollmentDateBetween(start, end);
-    }
-
-    public List<Student> getAllStudentsOrderByEnrollmentDateDesc(){
-        return service.getAllStudentsOrderByEnrollmentDateDesc();
+    /**
+     * Endpoint to get all students ordered by enrollment date in descending order.
+     * @return A list of all students ordered by enrollment date in descending order.
+     */
+    @GetMapping("/orderByEnrollmentDate")
+    public List<Student> getAllStudentsOrderByEnrollmentDateDesc() {
+        return studentService.getAllStudentsOrderByEnrollmentDateDesc();
     }
 }
